@@ -7,5 +7,6 @@ plugins {
 val koin_version: String by project
 
 dependencies {
+    // Dependency Injection
     implementation("org.koin:koin-core:$koin_version")
 }

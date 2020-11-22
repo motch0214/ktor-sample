@@ -9,12 +9,16 @@ import io.ktor.response.*
 import io.ktor.serialization.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
+import org.koin.core.context.KoinContextHandler
 import org.slf4j.event.Level
 import java.util.*
 
 fun Application.installNegotiation() {
     install(ContentNegotiation) {
-        json()
+        json(Json(from = DefaultJson) {
+            serializersModule = KoinContextHandler.get().get()
+        })
     }
 
     install(StatusPages) {
