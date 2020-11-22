@@ -10,6 +10,7 @@ val koin_version: String by project
 
 dependencies {
     implementation(project(":support"))
+    implementation(project(":usecase"))
     implementation(project(":domain"))
 
     // Ktor

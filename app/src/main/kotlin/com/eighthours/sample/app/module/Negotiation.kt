@@ -1,12 +1,14 @@
 package com.eighthours.sample.app.module
 
 import com.eighthours.sample.support.module.AdditionalCallLogging
+import com.eighthours.sample.usecase.UsecaseException
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.serialization.*
+import io.ktor.util.pipeline.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -22,11 +24,22 @@ fun Application.installNegotiation() {
     }
 
     install(StatusPages) {
-        exception<SerializationException> { cause ->
+        fun PipelineContext<*, ApplicationCall>.debug(cause: Exception) {
             log.debug("${cause.javaClass.simpleName}: ${call.request.toLogString()} - ${cause.message}")
+        }
+
+        exception<SerializationException> { cause ->
+            debug(cause)
             call.respond(
                 HttpStatusCode.BadRequest,
                 BadRequestResponse(type = "SerializationException", message = cause.message)
+            )
+        }
+        exception<UsecaseException> { cause ->
+            debug(cause)
+            call.respond(
+                HttpStatusCode.BadRequest,
+                BadRequestResponse(type = cause.javaClass.simpleName, message = cause.message)
             )
         }
     }
