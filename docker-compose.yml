@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+    api:
+        image: ktor-sample:latest
+        container_name: ktor-sample
+        ports:
+            - 8080:8080
