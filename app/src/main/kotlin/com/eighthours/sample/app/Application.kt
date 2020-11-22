@@ -1,5 +1,6 @@
 package com.eighthours.sample.app
 
+import com.eighthours.sample.app.module.installInjection
 import com.eighthours.sample.app.module.installNegotiation
 import com.eighthours.sample.app.module.installRouting
 import com.eighthours.sample.app.module.installSecurity
@@ -13,6 +14,7 @@ fun main() {
     val config = ConfigFactory.load().getConfig("ktor")
     val env = applicationEngineEnvironment {
         module {
+            installInjection()
             installNegotiation()
             installSecurity()
             installRouting()

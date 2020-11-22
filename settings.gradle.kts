@@ -1,3 +1,3 @@
 rootProject.name = "ktor-sample"
 
-include("app", "support")
+include("app", "support", "domain")
