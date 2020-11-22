@@ -8,6 +8,8 @@ plugins {
 val ktor_version: String by project
 
 dependencies {
+    implementation(project(":support"))
+
     // Ktor
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
