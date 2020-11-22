@@ -1,6 +1,6 @@
 package com.eighthours.sample.app.module
 
-import com.eighthours.sample.support.module.AdditionalCallLogging
+import com.eighthours.sample.app.support.AdditionalCallLogging
 import com.eighthours.sample.usecase.UsecaseException
 import io.ktor.application.*
 import io.ktor.features.*

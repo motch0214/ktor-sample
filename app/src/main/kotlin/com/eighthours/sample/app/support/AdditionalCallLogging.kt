@@ -1,4 +1,4 @@
-package com.eighthours.sample.support.module
+package com.eighthours.sample.app.support
 
 import io.ktor.application.*
 import io.ktor.features.*
