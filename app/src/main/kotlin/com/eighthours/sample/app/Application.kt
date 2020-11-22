@@ -25,6 +25,10 @@ fun main() {
             host = config.getString("host")
             port = config.getInt("port")
         }
+        connector {
+            host = config.getString("admin.host")
+            port = config.getInt("admin.port")
+        }
 
         log = LoggerFactory.getLogger("SampleApplication")
     }
