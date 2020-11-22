@@ -2,6 +2,7 @@ package com.eighthours.sample.app
 
 import com.eighthours.sample.app.module.installNegotiation
 import com.eighthours.sample.app.module.installRouting
+import com.eighthours.sample.app.module.installSecurity
 import com.typesafe.config.ConfigFactory
 import io.ktor.application.*
 import io.ktor.server.engine.*
@@ -13,6 +14,7 @@ fun main() {
     val env = applicationEngineEnvironment {
         module {
             installNegotiation()
+            installSecurity()
             installRouting()
             install(ShutDownUrl.ApplicationCallFeature) {
                 shutDownUrl = "/admin/shutdown"
