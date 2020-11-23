@@ -5,11 +5,18 @@ import org.koin.core.KoinComponent
 interface Usecase : KoinComponent {
 
     fun empty(): Empty = ""
+
+    data class User(val id: String, val name: String?)
 }
 
-interface PostUsecase<REQ : Any, RES : Any> : Usecase {
+interface CommandUsecase<REQ : Any, RES : Any> : Usecase {
 
-    suspend fun invoke(request: REQ): RES
+    suspend fun invoke(user: Usecase.User, request: REQ): RES
+
+    interface Public<REQ : Any, RES : Any> : Usecase {
+
+        suspend fun invoke(user: Usecase.User?, request: REQ): RES
+    }
 }
 
 typealias Empty = String

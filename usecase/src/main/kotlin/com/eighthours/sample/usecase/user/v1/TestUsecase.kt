@@ -1,12 +1,16 @@
 package com.eighthours.sample.usecase.user.v1
 
 import com.eighthours.sample.domain.common.now
-import com.eighthours.sample.usecase.PostUsecase
+import com.eighthours.sample.usecase.CommandUsecase
+import com.eighthours.sample.usecase.Usecase
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import org.slf4j.LoggerFactory
 import java.time.OffsetDateTime
 
-class TestUsecase : PostUsecase<TestUsecase.Request, TestUsecase.Response> {
+class TestUsecase : CommandUsecase<TestUsecase.Request, TestUsecase.Response> {
+
+    private val log = LoggerFactory.getLogger(this::class.java)
 
     @Serializable
     data class Request(
@@ -20,7 +24,8 @@ class TestUsecase : PostUsecase<TestUsecase.Request, TestUsecase.Response> {
         val dateTime: OffsetDateTime,
     )
 
-    override suspend fun invoke(request: Request): Response {
+    override suspend fun invoke(user: Usecase.User, request: Request): Response {
+        log.debug("$user")
         return Response(
             message = "Hello, ${request.id}",
             dateTime = now()
