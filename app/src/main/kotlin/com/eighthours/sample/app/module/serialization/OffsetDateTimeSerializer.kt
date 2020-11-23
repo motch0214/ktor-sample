@@ -1,7 +1,7 @@
 package com.eighthours.sample.app.module.serialization
 
-import com.eighthours.sample.domain.common.timezone
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -10,6 +10,7 @@ import kotlinx.serialization.encoding.Encoder
 import org.koin.core.KoinComponent
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 object OffsetDateTimeSerializer : KSerializer<OffsetDateTime>, KoinComponent {
 
@@ -20,7 +21,10 @@ object OffsetDateTimeSerializer : KSerializer<OffsetDateTime>, KoinComponent {
     }
 
     override fun deserialize(decoder: Decoder): OffsetDateTime {
-        val instant = OffsetDateTime.parse(decoder.decodeString()).toInstant()
-        return OffsetDateTime.ofInstant(instant, timezone())
+        try {
+            return OffsetDateTime.parse(decoder.decodeString())
+        } catch (e: DateTimeParseException) {
+            throw SerializationException(e)
+        }
     }
 }

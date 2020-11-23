@@ -21,7 +21,7 @@ val SystemModule = module {
 
 private class DateTimeSupportImpl : DateTimeSupport {
 
-    val timezone: ZoneId = ZoneId.of(ConfigFactory.load().getString("system.zone"))
+    val timezone: ZoneId = ZoneId.of(ConfigFactory.load().getString("system.timezone"))
 
     override fun now(): OffsetDateTime = OffsetDateTime.now(timezone)
 
