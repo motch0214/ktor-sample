@@ -11,6 +11,8 @@ import io.ktor.server.netty.*
 import org.slf4j.LoggerFactory
 
 fun main() {
+    setupExceptionHandler()
+
     val config = ConfigFactory.load().getConfig("ktor")
     val env = applicationEngineEnvironment {
         module {
@@ -41,4 +43,11 @@ fun main() {
         responseWriteTimeoutSeconds = config.getInt("netty.responseWriteTimeoutSeconds")
         requestReadTimeoutSeconds = config.getInt("netty.requestReadTimeoutSeconds")
     }.start(true)
+}
+
+fun setupExceptionHandler() {
+    val log = LoggerFactory.getLogger("ExceptionHandler")
+    Thread.setDefaultUncaughtExceptionHandler { thread, e ->
+        log.error("Uncaught exception in thread ${thread.name}", e)
+    }
 }

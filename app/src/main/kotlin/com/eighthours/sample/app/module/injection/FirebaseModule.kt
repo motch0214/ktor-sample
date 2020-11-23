@@ -12,17 +12,21 @@ val FirebaseModule = module {
     single { FirebaseAuth.getInstance(get()) }
 }
 
+private const val GOOGLE_APPLICATION_CREDENTIALS = "GOOGLE_APPLICATION_CREDENTIALS"
+private const val GOOGLE_APPLICATION_CREDENTIALS_JSON = "GOOGLE_APPLICATION_CREDENTIALS_JSON"
+private const val FIREBASE_DATABASE_URL = "FIREBASE_DATABASE_URL"
+
 private fun initFirebase(): FirebaseApp {
-    val credentials = if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
+    val credentials = if (System.getenv(GOOGLE_APPLICATION_CREDENTIALS) != null) {
         GoogleCredentials.getApplicationDefault()
     } else {
-        System.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")?.let {
+        System.getenv(GOOGLE_APPLICATION_CREDENTIALS_JSON)?.let {
             GoogleCredentials.fromStream(ByteArrayInputStream(it.toByteArray()))
-        } ?: error("GOOGLE_APPLICATION_CREDENTIALS not set.")
+        } ?: error("$GOOGLE_APPLICATION_CREDENTIALS not set.")
     }
 
-    val databaseUrl = System.getenv("FIREBASE_DATABASE_URL")
-        ?: error("FIREBASE_DATABASE_URL not set.")
+    val databaseUrl = System.getenv(FIREBASE_DATABASE_URL)
+        ?: error("$FIREBASE_DATABASE_URL not set.")
 
     val options = FirebaseOptions.Builder()
         .setCredentials(credentials)
