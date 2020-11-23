@@ -26,3 +26,9 @@ build
 # IntelliJ
 .idea
 out
+
+# Local env
+.env/*
+!.env/configs
+.env/configs/*
+!.env/configs/.gitkeep

@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.file.File
+import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
     application
@@ -47,4 +49,13 @@ tasks.jib {
 
 application {
     mainClassName = mainClass
+}
+tasks.named<JavaExec>("run") {
+    doFirst {
+        val file = File("$projectDir/.env/application.properties")
+        if (file.exists) {
+            @Suppress("UNCHECKED_CAST")
+            environment(file.loadProperties() as Map<String, *>)
+        }
+    }
 }

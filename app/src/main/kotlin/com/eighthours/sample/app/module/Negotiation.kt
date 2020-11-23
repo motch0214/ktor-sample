@@ -12,14 +12,20 @@ import io.ktor.util.pipeline.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import org.koin.core.context.KoinContextHandler
+import kotlinx.serialization.modules.SerializersModule
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.slf4j.event.Level
 import java.util.*
+
+private object NegotiationComponent : KoinComponent {
+    val serializersModule: SerializersModule by inject()
+}
 
 fun Application.installNegotiation() {
     install(ContentNegotiation) {
         json(Json(from = DefaultJson) {
-            serializersModule = KoinContextHandler.get().get()
+            serializersModule = NegotiationComponent.serializersModule
         })
     }
 

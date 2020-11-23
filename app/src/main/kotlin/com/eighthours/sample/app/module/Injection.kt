@@ -1,5 +1,6 @@
 package com.eighthours.sample.app.module
 
+import com.eighthours.sample.app.module.injection.FirebaseModule
 import com.eighthours.sample.app.module.injection.SystemModule
 import io.ktor.application.*
 import org.koin.core.logger.Level
@@ -11,6 +12,7 @@ fun Application.installInjection() {
         slf4jLogger(Level.ERROR)
         modules(
             SystemModule,
+            FirebaseModule,
         )
     }
 }
