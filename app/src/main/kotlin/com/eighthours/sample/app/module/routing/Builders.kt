@@ -1,6 +1,7 @@
 package com.eighthours.sample.app.module.routing
 
 import com.eighthours.sample.app.support.FirebasePrincipal
+import com.eighthours.sample.domain.common.StringId
 import com.eighthours.sample.usecase.CommandUsecase
 import com.eighthours.sample.usecase.Usecase
 import io.ktor.application.*
@@ -30,12 +31,14 @@ class Auth internal constructor() {
     }
 
     operator fun <REQ : Any, RES : Any> invoke(usecase: CommandUsecase<REQ, RES>) = Wrapper(usecase)
+
+    operator fun invoke(user: Usecase.User?) = requireNotNull(user)
 }
 
 fun ApplicationCall.user(): Usecase.User? {
     val token = principal<FirebasePrincipal>()?.token
     return token?.let {
-        Usecase.User(token.uid, token.name)
+        Usecase.User(StringId(token.uid), token.name)
     }
 }
 
