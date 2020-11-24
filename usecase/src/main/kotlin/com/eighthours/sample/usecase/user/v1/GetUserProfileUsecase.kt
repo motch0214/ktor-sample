@@ -16,6 +16,7 @@ class GetUserProfileUsecase : Usecase {
     @Serializable
     data class Response(
         val id: StringId<User>,
+        val name: String,
         @Serializable(with = OffsetDateTimeSerializer::class)
         val updated: OffsetDateTime,
         val version: Int,
@@ -29,6 +30,7 @@ class GetUserProfileUsecase : Usecase {
 
         return Response(
             id = profile.userId,
+            name = profile.name,
             updated = profile.updated,
             version = profile.version,
         )

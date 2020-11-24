@@ -8,6 +8,7 @@ plugins {
 val ktor_version: String by project
 val koin_version: String by project
 val serialization_version: String by project
+val doma_version: String by project
 
 dependencies {
     implementation(project(":domain"))
@@ -20,4 +21,7 @@ dependencies {
 
     // Dependency Injection
     implementation("org.koin:koin-core:$koin_version")
+
+    // Database Access
+    implementation("org.seasar.doma:doma:$doma_version")
 }

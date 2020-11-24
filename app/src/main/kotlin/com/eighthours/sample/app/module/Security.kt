@@ -8,6 +8,7 @@ import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.request.*
+import io.ktor.response.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -22,6 +23,7 @@ fun Application.installSecurity() {
     intercept(ApplicationCallPipeline.Features) {
         if (call.request.path().startsWith("/admin") && call.request.port() != adminPort) {
             // Error because of calling Private API from NOT local
+            call.respond(HttpStatusCode.NotFound)
             return@intercept finish()
         }
     }

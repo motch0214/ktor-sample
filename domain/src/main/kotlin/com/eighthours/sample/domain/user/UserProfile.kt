@@ -11,6 +11,8 @@ data class UserProfile(
     @Id
     val userId: StringId<User>,
 
+    val name: String,
+
     val updated: OffsetDateTime,
 
     @Version

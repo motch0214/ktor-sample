@@ -1,8 +1,7 @@
 package com.eighthours.sample.app.module.routing
 
-import com.eighthours.sample.usecase.user.v1.GetMyUserAccountUsecase
 import com.eighthours.sample.usecase.user.v1.GetUserProfileUsecase
-import io.ktor.application.*
+import com.eighthours.sample.usecase.user.v1.SaveUserProfileUsecase
 import io.ktor.routing.*
 
 fun Route.v1() = route("/v1") {
@@ -12,8 +11,6 @@ fun Route.v1() = route("/v1") {
         }
     }
     authenticated { auth ->
-        getWith("/account", GetMyUserAccountUsecase()) {
-            it.invoke(auth(call.user()))
-        }
+        postWith("/user/profile", auth(SaveUserProfileUsecase()))
     }
 }

@@ -11,3 +11,5 @@ class BadRequestException(
 class NotFoundException(
     override val message: String, cause: Throwable? = null
 ) : UsecaseException(message, cause)
+
+class UpdateConflictException(cause: Throwable? = null) : UsecaseException("Update operations conflicted.", cause)

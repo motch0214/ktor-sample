@@ -28,7 +28,7 @@ private fun initFirebase(): FirebaseApp {
     val databaseUrl = System.getenv(FIREBASE_DATABASE_URL)
         ?: error("$FIREBASE_DATABASE_URL not set.")
 
-    val options = FirebaseOptions.Builder()
+    val options = FirebaseOptions.builder()
         .setCredentials(credentials)
         .setDatabaseUrl(databaseUrl)
         .build()
