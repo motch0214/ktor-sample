@@ -4,5 +4,34 @@ services:
     api:
         image: ktor-sample:latest
         container_name: ktor-sample
+        depends_on:
+            - db
+        env_file: ./.env/application.properties
+        environment:
+            DATABASE_SECRET_JSON: '{"host":"db","port":3306,"username":"sa","dbname":"sample-db","password":"pass"}'
+            DATABASE_SCHEME: 'jdbc:mysql'
+            REDIS_ENDPOINT: redis
+        volumes:
+            - ./.env/configs:/etc/configs:ro
         ports:
             - 8080:8080
+            - 8081:8081
+
+    db:
+        image: mysql:5.7
+        container_name: ktor-sample-database
+        environment:
+            MYSQL_DATABASE: sample-db
+            MYSQL_USER: sa
+            MYSQL_PASSWORD: pass
+            MYSQL_ROOT_PASSWORD: root
+            TZ: 'Asia/Tokyo'
+        command: '--character-set-server=utf8mb4 --collation-server=utf8mb4_bin'
+        ports:
+            - 3306:3306
+
+    adminer:
+        image: adminer
+        container_name: ktor-sample-adminer
+        ports:
+            - 8088:8080

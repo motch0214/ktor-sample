@@ -37,5 +37,6 @@ dependencies {
     implementation("org.flywaydb:flyway-core:7.2.1")
 
     // Database
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:2.7.0")
     testRuntimeOnly("com.h2database:h2:1.4.200")
 }
