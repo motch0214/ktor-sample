@@ -9,30 +9,32 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.seasar.doma.jdbc.Config
 
-open class DefaultInitialization : Initialization, KoinComponent {
+class DefaultInitialization : Initialization {
 
-    private val config: Config by inject()
+    companion object : KoinComponent {
 
-    init {
-        val placeholders = ConfigFactory.load().getConfig("database.flyway").entrySet()
-            .map { (key, value) ->
-                key to value.unwrapped() as String
-            }
-            .toMap()
+        private val config: Config by inject()
 
-        val flyway = Flyway.configure()
-            .dataSource(config.dataSource)
-            .placeholders(placeholders)
-            .load()
+        fun createFlyway(): Flyway {
+            val placeholders = ConfigFactory.load().getConfig("database.flyway").entrySet()
+                .map { (key, value) ->
+                    key to value.unwrapped() as String
+                }
+                .toMap()
 
-        runBlocking {
-            execute(flyway)
+            return Flyway.configure()
+                .dataSource(config.dataSource)
+                .placeholders(placeholders)
+                .load()
         }
     }
 
-    open suspend fun execute(flyway: Flyway) {
-        tx.required {
-            flyway.migrate()
+    init {
+        val flyway = createFlyway()
+        runBlocking {
+            tx.required {
+                flyway.migrate()
+            }
         }
     }
 }

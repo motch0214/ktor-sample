@@ -5,7 +5,6 @@ import com.eighthours.sample.app.module.installNegotiation
 import com.eighthours.sample.app.module.installRouting
 import com.eighthours.sample.app.module.installSecurity
 import com.typesafe.config.ConfigFactory
-import io.ktor.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.slf4j.LoggerFactory
@@ -20,9 +19,6 @@ fun main() {
             installNegotiation()
             installSecurity()
             installRouting()
-            install(ShutDownUrl.ApplicationCallFeature) {
-                shutDownUrl = "/admin/shutdown"
-            }
         }
 
         connector {

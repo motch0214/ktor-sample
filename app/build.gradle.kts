@@ -18,10 +18,12 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("io.ktor:ktor-auth:$ktor_version")
+    testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
 
     // Dependency Injection
     implementation("org.koin:koin-ktor:$koin_version")
     implementation("org.koin:koin-logger-slf4j:$koin_version")
+    testImplementation("org.koin:koin-test:$koin_version")
 
     // Logging
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
@@ -39,4 +41,17 @@ dependencies {
     // Database
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:2.7.0")
     testRuntimeOnly("com.h2database:h2:1.4.200")
+}
+
+tasks.test {
+    doFirst {
+        environment(
+            mapOf(
+                "DATABASE_SECRET_JSON" to """{ "username": "sa", "password": "pass" }""",
+                "DATABASE_URL" to "jdbc:h2:$rootDir/.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE",
+                "DATABASE_DIALECT" to "org.seasar.doma.jdbc.dialect.H2Dialect"
+            )
+        )
+    }
+    maxParallelForks = 1
 }

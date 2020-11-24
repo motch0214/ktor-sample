@@ -37,7 +37,7 @@ KTOR_CORS_ALLOW_SCHEME=http,https
 KTOR_CORS_ALLOW_ORIGIN=*
 
 # H2 database
-DATABASE_URL=jdbc:h2:./.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE
+DATABASE_URL=jdbc:h2:./.env/work/h2/application;MODE=MySQL;AUTO_SERVER=TRUE
 DATABASE_SECRET_JSON={ "username": "sa", "password": "pass" }
 DATABASE_DIALECT=org.seasar.doma.jdbc.dialect.H2Dialect
 ```

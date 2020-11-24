@@ -26,6 +26,21 @@ dependencies {
     implementation(project(":app"))
 }
 
+subprojects {
+    apply(plugin = "java")
+
+    dependencies {
+        // Testing
+        testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+        testImplementation("org.assertj:assertj-core:3.18.1")
+        testImplementation("org.mockito:mockito-inline:3.6.0")
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
+}
+
 val applicationClass = "com.eighthours.sample.app.ApplicationKt"
 
 val jar by tasks.getting(Jar::class) {
@@ -67,9 +82,12 @@ tasks.register("h2Console", JavaExec::class) {
     group = "application"
     classpath += project(":app").sourceSets["test"].runtimeClasspath
     main = "org.h2.tools.Console"
-    args = listOf(
-        "-url", "jdbc:h2:./.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE",
-        "-user", "sa",
-        "-password", "pass"
-    )
+    doFirst {
+        val name = findProperty("db.name") as String?
+        args = listOf(
+            "-url", "jdbc:h2:./.env/work/h2/${name ?: "application"};MODE=MySQL;AUTO_SERVER=TRUE",
+            "-user", "sa",
+            "-password", "pass"
+        )
+    }
 }
