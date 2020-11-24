@@ -4,10 +4,11 @@ import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
     application
-    kotlin("jvm") version "1.4.10"
-    kotlin("plugin.serialization") version "1.4.10"
-    kotlin("kapt") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
+    kotlin("plugin.serialization") version "1.4.20"
+    kotlin("kapt") version "1.4.20"
     id("com.google.cloud.tools.jib") version "2.6.0"
+    id("name.remal.check-updates") version "1.1.4"
 }
 
 allprojects {
@@ -25,11 +26,11 @@ dependencies {
     implementation(project(":app"))
 }
 
-val mainClass = "com.eighthours.sample.app.ApplicationKt"
+val applicationClass = "com.eighthours.sample.app.ApplicationKt"
 
 val jar by tasks.getting(Jar::class) {
     manifest {
-        attributes["Main-Class"] = mainClass
+        attributes["Main-Class"] = applicationClass
     }
 }
 
@@ -49,7 +50,7 @@ tasks.jib {
 }
 
 application {
-    mainClassName = mainClass
+    mainClass.set(applicationClass)
 }
 tasks.named<JavaExec>("run") {
     classpath += project(":app").sourceSets["test"].runtimeClasspath
