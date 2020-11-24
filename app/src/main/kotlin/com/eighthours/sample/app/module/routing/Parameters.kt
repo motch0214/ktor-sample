@@ -12,21 +12,27 @@ val PipelineContext<*, ApplicationCall>.params: Parameters get() = call.paramete
 val PipelineContext<*, ApplicationCall>.query: Parameters get() = call.request.queryParameters
 
 fun <E : Any> Parameters.stringId(name: String): StringId<E> {
-    val string = get(name)
-        ?: throw BadRequestException("Parameter not found: $name")
-    if (string.isBlank()) {
-        throw BadRequestException("Blank: $name")
+    return StringId(string(name))
+}
+
+fun Parameters.string(name: String, default: String? = null): String {
+    return get(name) ?: if (default != null) {
+        return default
+    } else {
+        throw BadRequestException("Parameter not found: $name")
     }
-    return StringId(string)
 }
 
 fun <E : Any> Parameters.longId(name: String): LongId<E> {
     return LongId(long(name))
 }
 
-fun Parameters.long(name: String): Long {
-    val string = get(name)
-        ?: throw BadRequestException("Parameter not found: $name")
+fun Parameters.long(name: String, default: Long? = null): Long {
+    val string = get(name) ?: if (default != null) {
+        return default
+    } else {
+        throw BadRequestException("Parameter not found: $name")
+    }
     return string.toLongOrNull()
         ?: throw BadRequestException("Not a number for $name: $string")
 }

@@ -9,6 +9,7 @@ val ktor_version: String by project
 val koin_version: String by project
 val firebase_version: String by project
 val serialization_version: String by project
+val doma_version: String by project
 
 dependencies {
     implementation(project(":usecase"))
@@ -31,4 +32,14 @@ dependencies {
 
     // Firebase
     implementation("com.google.firebase:firebase-admin:$firebase_version")
+
+    // Database Access
+    implementation("org.seasar.doma:doma:$doma_version")
+    implementation("com.zaxxer:HikariCP:3.4.5")
+
+    // Database Migration
+    implementation("org.flywaydb:flyway-core:7.2.1")
+
+    // Database
+    testRuntimeOnly("com.h2database:h2:1.4.200")
 }

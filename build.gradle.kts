@@ -6,6 +6,7 @@ plugins {
     application
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.serialization") version "1.4.10"
+    kotlin("kapt") version "1.4.10"
     id("com.google.cloud.tools.jib") version "2.6.0"
 }
 
@@ -51,6 +52,7 @@ application {
     mainClassName = mainClass
 }
 tasks.named<JavaExec>("run") {
+    classpath += project(":app").sourceSets["test"].runtimeClasspath
     doFirst {
         val file = File("$projectDir/.env/application.properties")
         if (file.exists) {
@@ -58,4 +60,15 @@ tasks.named<JavaExec>("run") {
             environment(file.loadProperties() as Map<String, *>)
         }
     }
+}
+
+tasks.register("h2Console", JavaExec::class) {
+    group = "application"
+    classpath += project(":app").sourceSets["test"].runtimeClasspath
+    main = "org.h2.tools.Console"
+    args = listOf(
+        "-url", "jdbc:h2:./.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE",
+        "-user", "sa",
+        "-password", "pass"
+    )
 }

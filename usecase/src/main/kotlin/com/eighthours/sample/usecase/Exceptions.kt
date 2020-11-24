@@ -7,3 +7,7 @@ abstract class UsecaseException(
 class BadRequestException(
     override val message: String, cause: Throwable? = null
 ) : UsecaseException(message, cause)
+
+class NotFoundException(
+    override val message: String, cause: Throwable? = null
+) : UsecaseException(message, cause)
