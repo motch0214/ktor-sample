@@ -41,11 +41,9 @@ subprojects {
     }
 }
 
-val applicationClass = "com.eighthours.sample.app.ApplicationKt"
-
 val jar by tasks.getting(Jar::class) {
     manifest {
-        attributes["Main-Class"] = applicationClass
+        attributes["Main-Class"] = "com.eighthours.sample.app.ApplicationKt"
     }
 }
 
@@ -65,7 +63,7 @@ tasks.jib {
 }
 
 application {
-    mainClass.set(applicationClass)
+    mainClass.set("com.eighthours.sample.app.LocalApplicationKt")
 }
 tasks.named<JavaExec>("run") {
     classpath += project(":app").sourceSets["test"].runtimeClasspath

@@ -1,21 +1,22 @@
 package com.eighthours.sample.app
 
-import com.eighthours.sample.app.module.installInjection
-import com.eighthours.sample.app.module.installNegotiation
-import com.eighthours.sample.app.module.installRouting
-import com.eighthours.sample.app.module.installSecurity
+import com.eighthours.sample.app.module.*
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.slf4j.LoggerFactory
 
 fun main() {
+    startWith(DefaultInjector())
+}
+
+fun startWith(injector: Injector) {
     setupExceptionHandler()
 
     val config = ConfigFactory.load().getConfig("ktor")
     val env = applicationEngineEnvironment {
         module {
-            installInjection()
+            with(injector) { installInjection() }
             installNegotiation()
             installSecurity()
             installRouting()
@@ -41,7 +42,7 @@ fun main() {
     }.start(true)
 }
 
-fun setupExceptionHandler() {
+private fun setupExceptionHandler() {
     val log = LoggerFactory.getLogger("ExceptionHandler")
     Thread.setDefaultUncaughtExceptionHandler { thread, e ->
         log.error("Uncaught exception in thread ${thread.name}", e)

@@ -16,9 +16,15 @@ val Modules = listOf(
     FirebaseModule,
 )
 
-fun Application.installInjection() {
-    install(Koin) {
-        slf4jLogger(Level.ERROR)
-        modules(Modules)
+interface Injector {
+    fun Application.installInjection()
+}
+
+class DefaultInjector : Injector {
+    override fun Application.installInjection() {
+        install(Koin) {
+            slf4jLogger(Level.ERROR)
+            modules(Modules)
+        }
     }
 }
