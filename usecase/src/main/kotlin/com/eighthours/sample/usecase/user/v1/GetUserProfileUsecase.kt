@@ -23,7 +23,7 @@ class GetUserProfileUsecase : Usecase {
     )
 
     suspend fun invoke(id: StringId<User>): Response {
-        val profile = tx.required {
+        val profile = tx.required(query = true) {
             dao<UserProfileQueryDao>().select(id)
                 ?: throw NotFoundException("UserProfile not found: userId=$id")
         }

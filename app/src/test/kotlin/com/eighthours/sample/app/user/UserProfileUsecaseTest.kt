@@ -4,6 +4,7 @@ import com.eighthours.sample.app.*
 import com.eighthours.sample.usecase.user.v1.GetUserProfileUsecase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 
 class UserProfileUsecaseTest : KoinTest {
@@ -19,5 +20,7 @@ class UserProfileUsecaseTest : KoinTest {
                 assertThat(name).isEqualTo("TesterName")
             }
         }
+
+        stopKoin()
     }
 }
