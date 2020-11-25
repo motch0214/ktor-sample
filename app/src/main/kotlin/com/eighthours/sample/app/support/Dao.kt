@@ -3,7 +3,7 @@ package com.eighthours.sample.app.support
 import com.eighthours.sample.domain.common.TransactionSupport
 import org.koin.core.context.KoinContextHandler
 import org.koin.core.definition.BeanDefinition
-import org.koin.core.qualifier.TypeQualifier
+import org.koin.core.qualifier.named
 import org.koin.dsl.ScopeDSL
 import org.seasar.doma.jdbc.Config
 
@@ -21,5 +21,5 @@ inline fun <reified T> ScopeDSL.defineDao(): BeanDefinition<T> {
 }
 
 fun TransactionSupport.Scope.getConfig(): Config {
-    return KoinContextHandler.get().get(TypeQualifier(this::class))
+    return KoinContextHandler.get().get(named(id))
 }
