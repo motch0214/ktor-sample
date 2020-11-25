@@ -1,23 +1,41 @@
 package com.eighthours.sample.app.user
 
 import com.eighthours.sample.app.*
+import com.eighthours.sample.app.mock.Tester
 import com.eighthours.sample.usecase.user.v1.GetUserProfileUsecase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import java.time.OffsetDateTime
 
 class UserProfileUsecaseTest : KoinTest {
 
+    private val time = OffsetDateTime.parse("2021-01-01T00:00+09:00")
+
     @Test
-    fun test() = testUsecase {
-        withPost("/v1/user/profile", """{ "name": "TesterName" }""", Token.Tester) {
+    fun test() = testUsecase(at = time) {
+        withPost("/v1/user/profile", """{ "name": "TesterName" }""", Tester.token) {
             response.ok()
         }
-        withGet("/v1/users/${Token.Tester.id}/profile") {
+
+        withGet("/v1/users/${Tester.id}/profile") {
             with(response.ok().content<GetUserProfileUsecase.Response>()) {
-                assertThat(id.value).isEqualTo(Token.Tester.id)
+                assertThat(id).isEqualTo(Tester.id)
                 assertThat(name).isEqualTo("TesterName")
+                assertThat(updated).isEqualTo(time)
+            }
+        }
+
+        at(time + 1.hours)
+        withPost("/v1/user/profile", """{ "name": "TN", "version": 1 }""", Tester.token) {
+            response.ok()
+        }
+
+        withGet("/v1/users/${Tester.id}/profile") {
+            with(response.ok().content<GetUserProfileUsecase.Response>()) {
+                assertThat(id).isEqualTo(Tester.id)
+                assertThat(name).isEqualTo("TN")
+                assertThat(updated).isEqualTo(time + 1.hours)
             }
         }
     }

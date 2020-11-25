@@ -1,6 +1,6 @@
 package com.eighthours.sample.domain.common.doma
 
-import com.eighthours.sample.domain.common.timezone
+import com.eighthours.sample.domain.common.now
 import org.koin.core.KoinComponent
 import org.seasar.doma.ExternalDomain
 import org.seasar.doma.jdbc.domain.DomainConverter
@@ -17,7 +17,7 @@ internal class OffsetDateTimeConverter : DomainConverter<OffsetDateTime, java.ut
 
     override fun fromValueToDomain(value: java.util.Date?): OffsetDateTime? {
         return value?.toInstant()?.let {
-            OffsetDateTime.ofInstant(it, timezone())
+            OffsetDateTime.ofInstant(it, now().offset)
         }
     }
 }
