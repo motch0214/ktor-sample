@@ -42,7 +42,7 @@ fun ApplicationCall.user(): Usecase.User? {
     }
 }
 
-fun <U, RES : Any> Route.getWith(
+fun <U : Usecase, RES : Any> Route.getWith(
     path: String, usecase: U,
     body: suspend PipelineContext<*, ApplicationCall>.(U) -> RES
 ) {

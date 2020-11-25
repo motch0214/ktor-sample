@@ -18,6 +18,7 @@ import kotlinx.serialization.json.Json
 import org.assertj.core.api.Assertions.assertThat
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.mock.MockProvider
 import org.koin.test.mock.declareMock
@@ -53,6 +54,7 @@ fun KoinTest.testUsecase(test: TestApplicationEngine.() -> Unit) {
     }) {
         test()
     }
+    stopKoin()
 }
 
 fun <R> TestApplicationEngine.withGet(

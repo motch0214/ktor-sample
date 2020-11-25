@@ -2,7 +2,6 @@ package com.eighthours.sample.app.impl
 
 import com.eighthours.sample.app.module.injection.CommandScope
 import com.eighthours.sample.app.support.Initialization
-import com.eighthours.sample.app.support.getConfig
 import com.eighthours.sample.domain.common.tx
 import com.typesafe.config.ConfigFactory
 import kotlinx.coroutines.runBlocking

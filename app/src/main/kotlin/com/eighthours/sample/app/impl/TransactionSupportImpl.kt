@@ -2,7 +2,6 @@ package com.eighthours.sample.app.impl
 
 import com.eighthours.sample.app.module.injection.CommandScope
 import com.eighthours.sample.app.module.injection.QueryScope
-import com.eighthours.sample.app.support.getConfig
 import com.eighthours.sample.domain.common.TransactionSupport
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

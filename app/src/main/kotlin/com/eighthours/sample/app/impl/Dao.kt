@@ -1,4 +1,4 @@
-package com.eighthours.sample.app.support
+package com.eighthours.sample.app.impl
 
 import com.eighthours.sample.domain.common.TransactionSupport
 import org.koin.core.context.KoinContextHandler

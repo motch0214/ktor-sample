@@ -20,7 +20,5 @@ class UserProfileUsecaseTest : KoinTest {
                 assertThat(name).isEqualTo("TesterName")
             }
         }
-
-        stopKoin()
     }
 }
