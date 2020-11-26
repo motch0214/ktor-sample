@@ -1,8 +1,10 @@
 package com.eighthours.sample.app.module.injection
 
 import com.eighthours.sample.app.impl.DomaConfig
+import com.eighthours.sample.app.impl.H2JsonColumnConverterAdapter
 import com.eighthours.sample.app.impl.TransactionSupportImpl
 import com.eighthours.sample.domain.common.TransactionSupport
+import com.eighthours.sample.domain.common.doma.JsonColumnConverter
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import kotlinx.serialization.Serializable
@@ -40,6 +42,12 @@ val DomaModule = module {
     }
 
     single<TransactionSupport> { TransactionSupportImpl() }
+    single {
+        when (ConfigFactory.load().getString("database.dialect")) {
+            "org.seasar.doma.jdbc.dialect.H2Dialect" -> H2JsonColumnConverterAdapter()
+            else -> object : JsonColumnConverter.Adapter {}
+        }
+    }
 }
 
 private const val DATABASE_URL = "DATABASE_URL"

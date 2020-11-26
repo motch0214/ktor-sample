@@ -44,14 +44,12 @@ dependencies {
 }
 
 tasks.test {
-    doFirst {
-        environment(
-            mapOf(
-                "DATABASE_SECRET_JSON" to """{ "username": "sa", "password": "pass" }""",
-                "DATABASE_URL" to "jdbc:h2:$rootDir/.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE",
-                "DATABASE_DIALECT" to "org.seasar.doma.jdbc.dialect.H2Dialect"
-            )
+    environment(
+        mapOf(
+            "DATABASE_SECRET_JSON" to """{ "username": "sa", "password": "pass" }""",
+            "DATABASE_URL" to "jdbc:h2:$rootDir/.env/work/h2/test;MODE=MySQL;AUTO_SERVER=TRUE",
+            "DATABASE_DIALECT" to "org.seasar.doma.jdbc.dialect.H2Dialect"
         )
-    }
+    )
     maxParallelForks = 1
 }

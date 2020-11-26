@@ -3,6 +3,7 @@ package com.eighthours.sample.usecase.user.v1
 import com.eighthours.sample.domain.common.dao
 import com.eighthours.sample.domain.common.now
 import com.eighthours.sample.domain.common.tx
+import com.eighthours.sample.domain.user.UserAttributes
 import com.eighthours.sample.domain.user.UserProfile
 import com.eighthours.sample.domain.user.dao.UserProfileDao
 import com.eighthours.sample.usecase.CommandUsecase
@@ -18,6 +19,7 @@ class SaveUserProfileUsecase : CommandUsecase<SaveUserProfileUsecase.Request, Em
     @Serializable
     data class Request(
         val name: String,
+        val attributes: UserAttributes,
         val version: Int? = null,
     )
 
@@ -25,6 +27,7 @@ class SaveUserProfileUsecase : CommandUsecase<SaveUserProfileUsecase.Request, Em
         val profile = UserProfile(
             userId = user.id,
             name = request.name,
+            attributes = request.attributes,
             updated = now(),
             version = request.version ?: -1
         )

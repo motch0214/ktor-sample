@@ -5,6 +5,7 @@ import com.eighthours.sample.domain.common.dao
 import com.eighthours.sample.domain.common.serialization.OffsetDateTimeSerializer
 import com.eighthours.sample.domain.common.tx
 import com.eighthours.sample.domain.user.User
+import com.eighthours.sample.domain.user.UserAttributes
 import com.eighthours.sample.domain.user.dao.UserProfileQueryDao
 import com.eighthours.sample.usecase.NotFoundException
 import com.eighthours.sample.usecase.Usecase
@@ -17,6 +18,7 @@ class GetUserProfileUsecase : Usecase {
     data class Response(
         val id: StringId<User>,
         val name: String,
+        val attributes: UserAttributes,
         @Serializable(with = OffsetDateTimeSerializer::class)
         val updated: OffsetDateTime,
         val version: Int,
@@ -31,6 +33,7 @@ class GetUserProfileUsecase : Usecase {
         return Response(
             id = profile.userId,
             name = profile.name,
+            attributes = profile.attributes,
             updated = profile.updated,
             version = profile.version,
         )

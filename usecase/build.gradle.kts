@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":domain"))
 
     // Ktor
-    implementation("io.ktor:ktor-server-host-common:$ktor_version")
+    implementation("io.ktor:ktor-utils:$ktor_version")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")

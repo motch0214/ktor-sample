@@ -13,6 +13,8 @@ data class UserProfile(
 
     val name: String,
 
+    val attributes: UserAttributes,
+
     val updated: OffsetDateTime,
 
     @Version

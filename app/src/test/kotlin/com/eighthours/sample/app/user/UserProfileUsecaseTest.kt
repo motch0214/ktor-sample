@@ -2,6 +2,7 @@ package com.eighthours.sample.app.user
 
 import com.eighthours.sample.app.*
 import com.eighthours.sample.app.mock.Tester
+import com.eighthours.sample.domain.user.UserAttributes
 import com.eighthours.sample.usecase.user.v1.GetUserProfileUsecase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,7 +15,7 @@ class UserProfileUsecaseTest : KoinTest {
 
     @Test
     fun test() = testUsecase(at = time) {
-        withPost("/v1/user/profile", """{ "name": "TesterName" }""", Tester.token) {
+        withPost("/v1/user/profile", """{ "name": "TesterName", "attributes": {} }""", Tester.token) {
             response.ok()
         }
 
@@ -22,12 +23,13 @@ class UserProfileUsecaseTest : KoinTest {
             with(response.ok().content<GetUserProfileUsecase.Response>()) {
                 assertThat(id).isEqualTo(Tester.id)
                 assertThat(name).isEqualTo("TesterName")
+                assertThat(attributes).isEqualTo(UserAttributes())
                 assertThat(updated).isEqualTo(time)
             }
         }
 
         at(time + 1.hours)
-        withPost("/v1/user/profile", """{ "name": "TN", "version": 1 }""", Tester.token) {
+        withPost("/v1/user/profile", """{ "name": "TN", "attributes": { "gender": "FEMALE" }, "version": 1 }""", Tester.token) {
             response.ok()
         }
 
@@ -35,6 +37,7 @@ class UserProfileUsecaseTest : KoinTest {
             with(response.ok().content<GetUserProfileUsecase.Response>()) {
                 assertThat(id).isEqualTo(Tester.id)
                 assertThat(name).isEqualTo("TN")
+                assertThat(attributes).isEqualTo(UserAttributes(gender = UserAttributes.Gender.FEMALE))
                 assertThat(updated).isEqualTo(time + 1.hours)
             }
         }
